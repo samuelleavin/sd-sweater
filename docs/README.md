@@ -2,9 +2,9 @@
 
 ## Directions
 
-ScriptDrop Weather Evaluation And Thermal Excellence Recommendations
+SD Weather Evaluation And Thermal Excellence Recommendations
 
-Everyday ScriptDrop sends thousands of notifications to couriers about their assigned deliveries.
+Everyday SD sends thousands of notifications to couriers about their assigned deliveries.
 We’d like to start including recommendations of what they should bring with them based on their current weather forecast.
 Eg. “bring a sweater” if it’s going to be chilly, or “bring a raincoat” if it’s going to rain.
 
