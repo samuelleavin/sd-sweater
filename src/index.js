@@ -1,16 +1,16 @@
 #!/usr/bin/env node
-const fs = require('fs');
-const yargs = require("yargs/yargs");
+const fs = require(`fs`);
+const yargs = require(`yargs/yargs`);
 
 /**
  * Note: hideBin is a shorthand for process.argv.slice(2).
  * It has the benefit that it takes into account variations in some environments, e.g., Electron.
  */
-const { hideBin } = require("yargs/helpers");
+const { hideBin } = require(`yargs/helpers`);
 
 const constants = {
-  absorbent: 'absorbent',
-  waterproof: 'waterproof',
+  absorbent: `absorbent`,
+  waterproof: `waterproof`,
 };
 
 main();
@@ -35,7 +35,7 @@ async function main() {
       default: `NY`,
       demandOption: true,
     })
-    .coerce('state', (arg) => (arg || '').toUpperCase())
+    .coerce(`state`, (arg) => (arg || ``).toUpperCase())
     .check((argv, _options) => {
       // This only runs once, so we don't need to cache the regex
       if (!argv.state.match(/^[A-Z]{2}$/g)) {
@@ -44,8 +44,8 @@ async function main() {
 
       return true;
     })
-    .help('h')
-    .alias('h', 'help')
+    .help(`h`)
+    .alias(`h`, `help`)
     .parse();
 
   let index;
@@ -56,7 +56,7 @@ async function main() {
     const recommendations = JSON.parse(recommendationData);
     index = buildIndex(recommendations);
   } catch (error) {
-    process.stdout.write(`Error: ${error.message}`)
+    process.stdout.write(`Error: ${error.message}`);
     return;
   }
   
