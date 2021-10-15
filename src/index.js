@@ -57,11 +57,16 @@ async function main() {
     index = buildIndex(recommendations);
   } catch (error) {
     process.stdout.write(`Error: ${error.message}`)
+    return;
   }
   
   // call for weather
+    // read api key
+    // compose url
+    // parse response
 }
 
+/** sort recommendations into category groups, as well as waterproof/absorbent groups */
 function buildIndex(recommendations) {
   return recommendations.reduce((accumulator, recommendation) => {
     const { category, waterproof } = recommendation;
