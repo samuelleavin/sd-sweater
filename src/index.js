@@ -64,6 +64,16 @@ async function main() {
     // read api key
     // compose url
     // parse response
+  let apiKey;
+  
+  try {
+    apiKey = (await fs.promises.readFile(`../secrets/api-key.txt`, `utf8`)).trim();
+  } catch (error) {
+    process.stdout.write(`Error: ${error.message}`)
+    return;
+  }
+  
+  
 }
 
 /** sort recommendations into category groups, as well as waterproof/absorbent groups */
