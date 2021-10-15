@@ -22,5 +22,16 @@ const argv = yargs(hideBin(process.argv))
     default: `NY`,
     demandOption: true,
   })
-  .help()
+  .coerce('state', (arg) => (arg || '').toUpperCase() )
+  .check((argv, _options) => {    
+    // This only runs once, so we don't need to cache the regex
+    if (!argv.state.match(/^[A-Z]{2}$/g)) {
+      throw new Error(`Invalid state provided; please provide a two letter code.`)
+    }
+    
+    return true;
+  })
+  .help('h')
+  .alias('h', 'help')
   .parse();
+
