@@ -7,19 +7,20 @@ const yargs = require("yargs/yargs");
  */
 const { hideBin } = require("yargs/helpers");
 
-yargs(hideBin(process.argv))
-  .command(`get`, `get recommendations for your city/state combo`, (yargs, _) =>
-    yargs
-      .option(`city`, {
-        alias: `c`,
-        describe: `city to check`,
-        demandOption: true,
-      })
-      .option(`state`, {
-        alias: `s`,
-        describe: `state to check`,
-        demandOption: true,
-      })
-  )
+const argv = yargs(hideBin(process.argv))
+  .usage(`Usage: ./$0 -c [city] -s [state]`)
+  .usage(`For a city with spaces: ./$0 -c "[city]" -s [state]`)
+  .option(`city`, {
+    alias: `c`,
+    describe: `city to check`,
+    default: `new york`,
+    demandOption: true,
+  })
+  .option(`state`, {
+    alias: `s`,
+    describe: `two letter state code to check, e.g. NY`,
+    default: `NY`,
+    demandOption: true,
+  })
   .help()
   .parse();
