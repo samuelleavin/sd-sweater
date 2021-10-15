@@ -60,16 +60,6 @@ Read docs, install and configure basic `yargs` app to:
 
 - optional: validate city and state
 
-### OpenWeather API
-
-- Refresh on got docs, instal and configure API calls
-
-- Read API key from ENV
-
-- call api
-
-- check success/error
-
 ### Config
 
 - read JSON config
@@ -79,6 +69,16 @@ Read docs, install and configure basic `yargs` app to:
 - create index by category AND waterproof: rain vs no rain will be a common situation we'll need to compare.
 
 - optional: cache indexes in a file (using an md5 hash to compare versions)
+
+### OpenWeather API
+
+- Refresh on got docs, instal and configure API calls
+
+- Read API key from ENV
+
+- call api
+
+- check success/error
 
 ### Generate Recommendations
 
