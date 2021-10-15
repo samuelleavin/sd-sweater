@@ -99,3 +99,7 @@ Read docs, install and configure basic `yargs` app to:
 ## Notes
 
 - OpenWeather API supports language and measurement system parameters.
+
+## Setup
+
+- create and add your open weather api key in a `./secrets/api-key.txt` file.
