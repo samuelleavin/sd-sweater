@@ -1,0 +1,15 @@
+{
+  "name": "sd-sweater",
+  "version": "0.1.0",
+  "description": "ScriptDrop Weather Evaluation And Thermal Excellence Recommendations",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "weather",
+    "cli"
+  ],
+  "author": "samuel leavin",
+  "license": "UNLICENSED"
+}
