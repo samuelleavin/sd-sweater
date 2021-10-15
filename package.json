@@ -13,6 +13,7 @@
   "author": "samuel leavin",
   "license": "UNLICENSED",
   "dependencies": {
+    "got": "~11.8.2",
     "yargs": "~17.2.1"
   }
 }
