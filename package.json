@@ -11,5 +11,8 @@
     "cli"
   ],
   "author": "samuel leavin",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "dependencies": {
+    "yargs": "^17.2.1"
+  }
 }
