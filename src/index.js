@@ -7,6 +7,7 @@ const yargs = require(`yargs/yargs`);
  * It has the benefit that it takes into account variations in some environments, e.g., Electron.
  */
 const { hideBin } = require(`yargs/helpers`);
+const got = require('got');
 
 const constants = {
   absorbent: `absorbent`,
@@ -56,7 +57,7 @@ async function main() {
     const recommendations = JSON.parse(recommendationData);
     index = buildIndex(recommendations);
   } catch (error) {
-    process.stdout.write(`Error: ${error.message}`);
+    console.log(`Error: ${error.message}`);
     return;
   }
   
@@ -69,11 +70,38 @@ async function main() {
   try {
     apiKey = (await fs.promises.readFile(`../secrets/api-key.txt`, `utf8`)).trim();
   } catch (error) {
-    process.stdout.write(`Error: ${error.message}`)
+    console.log(`Error: ${error.message}`)
     return;
   }
   
+  /**
+   * We're assuming US, so set "units" to imperial
+   * We also only need one record for now, so set "cnt" to 1
+   */
+  const searchParams = new URLSearchParams({
+    q: `${argv.city},${argv.state},US`,
+    appid: apiKey,
+    units: 'imperial',
+    cnt: 1,
+  });
   
+  // taking advantage of fact template string will call `toString` method if available
+  const url = `http://api.openweathermap.org/data/2.5/forecast?${searchParams}`;
+  console.log(`url: ${url}`)
+  
+  let weather;
+  
+  try {
+    console.log('calling open weather api...')
+    const data = await got(url).json();
+    weather = data.list[0];
+  } catch (error) {
+    console.log(`Error: ${error.message}`);
+    return;
+  }
+  
+  console.log('weather')
+  console.log(weather);
 }
 
 /** sort recommendations into category groups, as well as waterproof/absorbent groups */
