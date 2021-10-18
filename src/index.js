@@ -113,7 +113,7 @@ async function main() {
   try {
     console.log(`calling open weather api at: ${url}`);
     const parsedBody = await got(url).json();
-    weather = parsedBody.list[0];
+    weatherRecord = parsedBody.list[0];
   } catch (error) {
     console.log(`Error: ${error.message}`);
     return;
@@ -141,39 +141,57 @@ async function main() {
 
   // jacket
   const jacketMap = recommendationIndex.get(categories.jacket);
-  const jacketRecommendations = [];
+  const jacketRecommendations = getGearRecommendations({
+    temperature,
+    map: jacketMap,
+    preferWaterproof: haveRainOrSnow,
+  });
 
-  if (haveRainOrSnow) {
-    const waterproofSet = jacketMap.get(itemProps.waterproof);
-
-    for (const jacket of waterproofSet) {
-      const { min_temp, max_temp } = jacket;
-
-      if (temperature >= min_temp && temperature <= max_temp) {
-        jacketRecommendations.push(jacket);
-      }
-    }
-  }
-
-  // if it is not raining, OR it IS raining but we have no jackets recommended so far.
-  // better some jacket than none.
-  if (jacketRecommendations.length === 0) {
-    const absorbentSet = jacketMap.get(itemProps.absorbent);    
-
-    for (const jacket of absorbentSet) {
-      const { min_temp, max_temp } = jacket;
-
-      if (temperature >= min_temp && temperature <= max_temp) {
-        jacketRecommendations.push(jacket);
-      }
-    }
-  }
-  
   finalRecommendations.push(...jacketRecommendations);
 
   // shoes
+  const shoeMap = recommendationIndex.get(categories.shoes);
+  const shoeRecommendations = getGearRecommendations({
+    temperature,
+    map: shoeMap,
+    preferWaterproof: haveRainOrSnow,
+  });
+
+  finalRecommendations.push(...shoeRecommendations);
 
   console.log('recos:', finalRecommendations);
+}
+
+function getGearRecommendations({ map, temperature, preferWaterproof }) {
+  const recommendations = [];
+
+  if (preferWaterproof) {
+    const gearSet = map.get(itemProps.waterproof);
+
+    for (const gear of gearSet) {
+      const { min_temp, max_temp } = gear;
+
+      if (temperature >= min_temp && temperature <= max_temp) {
+        recommendations.push(gear);
+      }
+    }
+  }
+
+  // if it is not raining, OR it IS raining but we have no gear recommended so far.
+  // better some gear than none.
+  if (recommendations.length === 0) {
+    const gearSet = map.get(itemProps.absorbent);
+
+    for (const gear of gearSet) {
+      const { min_temp, max_temp } = gear;
+
+      if (temperature >= min_temp && temperature <= max_temp) {
+        recommendations.push(gear);
+      }
+    }
+  }
+
+  return recommendations;
 }
 
 /** sort recommendations into category groups, as well as waterproof/absorbent groups */
