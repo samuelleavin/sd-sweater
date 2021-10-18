@@ -126,26 +126,54 @@ async function main() {
   ).length > 0;
 
   // prep final list of recommendations
-  const recommendations = [];
+  const finalRecommendations = [];
 
   // sunglasses
   if (cloudCoveragePercent < 75) {
     const sunglassesMap = recommendationIndex.get(categories.sunglasses);
 
     const waterproof = sunglassesMap.get(itemProps.waterproof);
-    if (waterproof.size > 0) recommendations.push(...waterproof);
+    if (waterproof.size > 0) finalRecommendations.push(...waterproof);
 
     const absorbent = sunglassesMap.get(itemProps.absorbent);
-    if (absorbent.size > 0) recommendations.push(...absorbent);
+    if (absorbent.size > 0) finalRecommendations.push(...absorbent);
   }
 
   // jacket
   const jacketMap = recommendationIndex.get(categories.jacket);
-  const jacketSet = jacketMap.get(haveRainOrSnow ? itemProps.waterproof : itemProps.absorbent);
+  const jacketRecommendations = [];
+
+  if (haveRainOrSnow) {
+    const waterproofSet = jacketMap.get(itemProps.waterproof);
+
+    for (const jacket of waterproofSet) {
+      const { min_temp, max_temp } = jacket;
+
+      if (temperature >= min_temp && temperature <= max_temp) {
+        jacketRecommendations.push(jacket);
+      }
+    }
+  }
+
+  // if it is not raining, OR it IS raining but we have no jackets recommended so far.
+  // better some jacket than none.
+  if (jacketRecommendations.length === 0) {
+    const absorbentSet = jacketMap.get(itemProps.absorbent);    
+
+    for (const jacket of absorbentSet) {
+      const { min_temp, max_temp } = jacket;
+
+      if (temperature >= min_temp && temperature <= max_temp) {
+        jacketRecommendations.push(jacket);
+      }
+    }
+  }
+  
+  finalRecommendations.push(...jacketRecommendations);
 
   // shoes
 
-  console.log(recommendations);
+  console.log('recos:', finalRecommendations);
 }
 
 /** sort recommendations into category groups, as well as waterproof/absorbent groups */
