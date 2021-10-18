@@ -18,7 +18,7 @@ We’d like you to build a small CLI application in the language of your choice 
 - Read a configuration file containing the possible recommendations.
 - Output zero, one, or many recommendations based on the city’s forecast.
 
-## API Usage
+### API Usage
 
 [OpenWeather API docs](https://openweathermap.org/current)
 
@@ -38,68 +38,35 @@ Less is more.
 
   > Human-friendly and powerful HTTP request library for Node.js
 
-### Development:
+- [OpenWeather API](https://openweathermap.org/forecast5) - Get weather data
+  > - 5 day forecast for any location or city
+  > - 5 day forecast with a 3-hour step
+  > - JSON and XML formats
 
-- [Jest Website](https://jestjs.io/) and [Jest Github Repo](https://github.com/facebook/jest) - for testing
+## Setup
 
-  > Jest is a delightful JavaScript Testing Framework with a focus on simplicity.
+- Clone from github
+- Install dependencies with `npm i`
+- create and add your open weather api key in a `./secrets/api-key.txt` file.
 
-## Development Strategy
+## Running the app
 
-### CLI
+Run for your city and state, e.g.:
 
-Read docs, install and configure basic `yargs` app to:
-
-- define initial command, e.g.
-
-    ```shell
-    $ sweater ...
-    ```
-
-- capture `--city={city}` and `--state={state}` from the user
-
-- optional: validate city and state
-
-### Config
-
-- read JSON config
-
-- define categories
-
-- create index by category AND waterproof: rain vs no rain will be a common situation we'll need to compare.
-
-- optional: cache indexes in a file (using an md5 hash to compare versions)
-
-### OpenWeather API
-
-- Refresh on got docs, instal and configure API calls
-
-- Read API key from ENV
-
-- call api
-
-- check success/error
-
-### Generate Recommendations
-
-- combine weather and recommendations to create personalized output
-
-    - for every category we can make a recommendation in,
-
-        - gather rules, e.g. `sunglasses` are not worn in the rain, do not recommend two pairs of `shoes`, etc..
-
-            - what will these 'rules' look like, and how will be implement and parse them?
-
-        - given current weather, rules, and recommendation indexes, determine our recommendations, if any
-
-- log to terminal
-
-- optional: write to file?
+```shell
+$ ./index.js -city "New York" -state NY
+```
 
 ## Notes
 
 - OpenWeather API supports language and measurement system parameters.
 
-## Setup
+## Thoughts
 
-- create and add your open weather api key in a `./secrets/api-key.txt` file.
+Went over time even without tests.
+
+There are many other remaining optimizations and issues to address.
+
+- Extracting and abstracting the rules. I did include a document with some thoughts about the abstraction to make.
+- Adding tests.
+- Modularization: extraction and separation of enums, and other objects inside the `index.js` to improve organization.
