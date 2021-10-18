@@ -12,11 +12,30 @@ const got = require('got');
 /**
  * If we have to hard code, use an enum
  */
-const constants = {
+const itemProps = {
   absorbent: 'absorbent',
   waterproof: 'waterproof',
 };
 
+/** 
+ * Categories of items we can recommend
+ */
+const categories = {
+  jacket: 'jacket',
+  sunglasses: 'sunglasses',
+  shoes: 'shoes',
+};
+
+/**
+ * We are using a subset of 'Main' conditions mapped from OpenWeather
+ * All of our conditions here can be quantified, and so relatively easily encoded. 
+ * n.b. We match the api condition string exactly, i.e. with Capitalization.
+ * n.b. see the following for more info: https://openweathermap.org/weather-conditions
+ */
+const mainConditions = {
+  rain: 'Rain',
+  snow: 'Snow',
+};
 
 main();
 
@@ -30,7 +49,7 @@ async function main() {
     .usage('For a city with spaces: ./$0 -c "[city]" -s [state]')
     .option('city', {
       alias: 'c',
-      describe: 'city to check',
+      describe: `city to check, e.g. "New York"`,
       default: 'new york',
       demandOption: true,
     })
@@ -53,22 +72,19 @@ async function main() {
     .alias('h', 'help')
     .parse();
 
-  let index;
+  let recommendationIndex;
 
   try {
-    // could check for existence of file
+    // could check for existence of file before trying a read
     const recommendationData = await fs.promises.readFile('./recommendations.json', 'utf8');
     const recommendations = JSON.parse(recommendationData);
-    index = buildIndex(recommendations);
+    recommendationIndex = buildIndex(recommendations);
   } catch (error) {
     console.log(`Error: ${error.message}`);
     return;
   }
 
-  // call for weather
-  // read api key
-  // compose url
-  // parse response
+  // call for weather, read api key, compose url, parse response
   let apiKey;
 
   try {
@@ -91,12 +107,11 @@ async function main() {
 
   // taking advantage of fact template string will call 'toString' method if available
   const url = `http://api.openweathermap.org/data/2.5/forecast?${searchParams}`;
-  console.log(`url: ${url}`)
 
-  let weather;
+  let weatherRecord;
 
   try {
-    console.log('calling open weather api...')
+    console.log(`calling open weather api at: ${url}`);
     const parsedBody = await got(url).json();
     weather = parsedBody.list[0];
   } catch (error) {
@@ -104,8 +119,33 @@ async function main() {
     return;
   }
 
-  console.log('weather')
-  console.log(weather);
+  const temperature = weatherRecord.main.temp;
+  const cloudCoveragePercent = weatherRecord.clouds.all;
+  const haveRainOrSnow = (weatherRecord.weather || []).filter(({ main }) =>
+    (main === mainConditions.rain || main == mainConditions.snow)
+  ).length > 0;
+
+  // prep final list of recommendations
+  const recommendations = [];
+
+  // sunglasses
+  if (cloudCoveragePercent < 75) {
+    const sunglassesMap = recommendationIndex.get(categories.sunglasses);
+
+    const waterproof = sunglassesMap.get(itemProps.waterproof);
+    if (waterproof.size > 0) recommendations.push(...waterproof);
+
+    const absorbent = sunglassesMap.get(itemProps.absorbent);
+    if (absorbent.size > 0) recommendations.push(...absorbent);
+  }
+
+  // jacket
+  const jacketMap = recommendationIndex.get(categories.jacket);
+  const jacketSet = jacketMap.get(haveRainOrSnow ? itemProps.waterproof : itemProps.absorbent);
+
+  // shoes
+
+  console.log(recommendations);
 }
 
 /** sort recommendations into category groups, as well as waterproof/absorbent groups */
@@ -115,13 +155,16 @@ function buildIndex(recommendations) {
 
     if (!accumulator.has(category)) {
       accumulator.set(category, new Map([
-        [constants.waterproof, new Set()],
-        [constants.absorbent, new Set()],
+        [itemProps.waterproof, new Set()],
+        [itemProps.absorbent, new Set()],
       ]));
     }
 
     const categoryMap = accumulator.get(category);
-    const set = waterproof ? categoryMap.get(constants.waterproof) : categoryMap.get(constants.absorbent)
+    const set = waterproof
+      ? categoryMap.get(itemProps.waterproof)
+      : categoryMap.get(itemProps.absorbent);
+
     set.add(recommendation);
 
     return accumulator;
