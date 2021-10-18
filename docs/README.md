@@ -51,10 +51,16 @@ Less is more.
 
 ## Running the app
 
+Change into the `./src` directory, e.g.
+
+```shell
+sd-sweater$ cd src
+```
+
 Run for your city and state, e.g.:
 
 ```shell
-$ ./index.js -city "New York" -state NY
+sd-sweater/src$ ./index.js -city "New York" -state NY
 ```
 
 ## Notes
@@ -70,3 +76,4 @@ There are many other remaining optimizations and issues to address.
 - Extracting and abstracting the rules. I did include a document with some thoughts about the abstraction to make.
 - Adding tests.
 - Modularization: extraction and separation of enums, and other objects inside the `index.js` to improve organization.
+- roll up or some other tool to package the tool (no `cd src` required)
