@@ -1,0 +1,56 @@
+{
+  "cod": "200",
+  "message": 0,
+  "cnt": 1,
+  "list": [
+    {
+      "dt": 1634590800,
+      "main": {
+        "temp": 58.5,
+        "feels_like": 56.25,
+        "temp_min": 57.31,
+        "temp_max": 58.5,
+        "pressure": 1010,
+        "sea_level": 1010,
+        "grnd_level": 1011,
+        "humidity": 47,
+        "temp_kf": 0.66
+      },
+      "weather": [
+        {
+          "id": 804,
+          "main": "Clouds",
+          "description": "overcast clouds",
+          "icon": "04d"
+        }
+      ],
+      "clouds": {
+        "all": 89
+      },
+      "wind": {
+        "speed": 18.43,
+        "deg": 329,
+        "gust": 27.38
+      },
+      "visibility": 10000,
+      "pop": 0,
+      "sys": {
+        "pod": "d"
+      },
+      "dt_txt": "2021-10-18 21:00:00"
+    }
+  ],
+  "city": {
+    "id": 5128581,
+    "name": "New York",
+    "coord": {
+      "lat": 40.7143,
+      "lon": -74.006
+    },
+    "country": "US",
+    "population": 8175133,
+    "timezone": -14400,
+    "sunrise": 1634555431,
+    "sunset": 1634595083
+  }
+}
