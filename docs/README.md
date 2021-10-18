@@ -74,6 +74,6 @@ Went over time even without tests.
 There are many other remaining optimizations and issues to address.
 
 - Extracting and abstracting the rules. I did include a document with some thoughts about the abstraction to make.
-- Adding tests.
+- Adding tests; tests are critical, but working code and speed is often the priority.
 - Modularization: extraction and separation of enums, and other objects inside the `index.js` to improve organization.
 - roll up or some other tool to package the tool (no `cd src` required)
