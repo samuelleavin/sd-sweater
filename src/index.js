@@ -108,28 +108,43 @@ async function main() {
   // taking advantage of fact template string will call 'toString' method if available
   const url = `http://api.openweathermap.org/data/2.5/forecast?${searchParams}`;
 
+  let parsedBody;
   let weatherRecord;
 
   try {
     console.log(`calling open weather api at: ${url}`);
-    const parsedBody = await got(url).json();
+    parsedBody = await got(url).json();
+  } catch (error) {
+    console.log(`Error: ${error.message}`);
+    return;
+  }
+  
+  try {
     weatherRecord = parsedBody.list[0];
+    if (!weatherRecord) throw new Error('failed to get weather record from response');
   } catch (error) {
     console.log(`Error: ${error.message}`);
     return;
   }
 
+  // calculate state
   const temperature = weatherRecord.main.temp;
   const cloudCoveragePercent = weatherRecord.clouds.all;
   const haveRainOrSnow = (weatherRecord.weather || []).filter(({ main }) =>
     (main === mainConditions.rain || main == mainConditions.snow)
   ).length > 0;
 
+  // Time is in Unix seconds, but it doesn't matter for this comparison
+  const time = weatherRecord.dt;
+  const sunset = parsedBody.city.sunset;
+  const sunrise = parsedBody.city.sunrise;
+  const sunIsOut = time >= sunrise && time <= sunset;
+
   // prep final list of recommendations
   const finalRecommendations = [];
 
   // sunglasses
-  if (cloudCoveragePercent < 75) {
+  if (cloudCoveragePercent < 75 && sunIsOut) {
     const sunglassesMap = recommendationIndex.get(categories.sunglasses);
 
     const waterproof = sunglassesMap.get(itemProps.waterproof);
@@ -159,7 +174,7 @@ async function main() {
 
   finalRecommendations.push(...shoeRecommendations);
 
-  console.log('recos:', finalRecommendations);
+  console.log('Final Recommendations:', finalRecommendations.map(recommendation => recommendation.name));
 }
 
 function getGearRecommendations({ map, temperature, preferWaterproof }) {
@@ -167,31 +182,28 @@ function getGearRecommendations({ map, temperature, preferWaterproof }) {
 
   if (preferWaterproof) {
     const gearSet = map.get(itemProps.waterproof);
-
-    for (const gear of gearSet) {
-      const { min_temp, max_temp } = gear;
-
-      if (temperature >= min_temp && temperature <= max_temp) {
-        recommendations.push(gear);
-      }
-    }
+    addGearByTemperature({ gearSet, temperature, recommendations })
   }
 
   // if it is not raining, OR it IS raining but we have no gear recommended so far.
   // better some gear than none.
   if (recommendations.length === 0) {
     const gearSet = map.get(itemProps.absorbent);
-
-    for (const gear of gearSet) {
-      const { min_temp, max_temp } = gear;
-
-      if (temperature >= min_temp && temperature <= max_temp) {
-        recommendations.push(gear);
-      }
-    }
+    addGearByTemperature({ gearSet, temperature, recommendations })
   }
 
   return recommendations;
+}
+
+/** In-place gear add based on temperature */
+function addGearByTemperature({ gearSet, temperature, recommendations }) {
+  for (const gear of gearSet) {
+    const { min_temp, max_temp } = gear;
+
+    if (temperature >= min_temp && temperature <= max_temp) {
+      recommendations.push(gear);
+    }
+  }
 }
 
 /** sort recommendations into category groups, as well as waterproof/absorbent groups */
