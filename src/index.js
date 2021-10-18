@@ -118,7 +118,7 @@ async function main() {
     console.log(`Error: ${error.message}`);
     return;
   }
-  
+
   try {
     weatherRecord = parsedBody.list[0];
     if (!weatherRecord) throw new Error('failed to get weather record from response');
@@ -145,13 +145,20 @@ async function main() {
 
   // sunglasses
   if (cloudCoveragePercent < 75 && sunIsOut) {
+    const sunglassesRecommendations = [];
     const sunglassesMap = recommendationIndex.get(categories.sunglasses);
-
-    const waterproof = sunglassesMap.get(itemProps.waterproof);
-    if (waterproof.size > 0) finalRecommendations.push(...waterproof);
-
-    const absorbent = sunglassesMap.get(itemProps.absorbent);
-    if (absorbent.size > 0) finalRecommendations.push(...absorbent);
+    
+    if (haveRainOrSnow) {
+      const waterproof = sunglassesMap.get(itemProps.waterproof);
+      if (waterproof.size > 0) sunglassesRecommendations.push(...waterproof);
+    }
+    
+    if (sunglassesRecommendations.length === 0) {
+      const absorbent = sunglassesMap.get(itemProps.absorbent);
+      if (absorbent.size > 0) sunglassesRecommendations.push(...absorbent);
+    }
+    
+    finalRecommendations.push(...sunglassesRecommendations);
   }
 
   // jacket
