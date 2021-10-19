@@ -68,7 +68,7 @@ sd-sweater/src$ ./index.js -city "New York" -state NY
 Currently, we recommend all items that satisfy the following conditions:
 - Wear sunglasses IFF Cloud coverage is less than 75%, and it is daytime
 - For jackets and shoes, wear IFF it is suitable for the current temperature.
-- For jackets and shoes, IFF it is raining or snowing, prefer waterproof gear, but recommend other things if none are available.
+- For jackets, shoes and sunglasses, IFF it is raining or snowing, prefer waterproof gear, but recommend absorbent ones if none are available.
 
 ## Notes
 
