@@ -84,6 +84,7 @@ Went over time even without tests. Testing and TDD is a great idea, but I have n
 
 There are many other remaining optimizations and issues to improve upon.
 
+- Adding human readable version of the recommendations
 - Extracting and abstracting the rules. I did include a document with some thoughts about the abstraction to make.
 - Adding tests; tests are critical, but working code and speed is often the priority.
 - Modularization: extraction and separation of enums, and other objects inside the `index.js` to improve organization.
