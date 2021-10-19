@@ -69,9 +69,20 @@ sd-sweater/src$ ./index.js -city "New York" -state NY
 
 ## Thoughts
 
-Went over time even without tests.
+Fun little challenge. I enjoyed using yargs for the first time, despite having seen it in the wild.
 
-There are many other remaining optimizations and issues to address.
+I made numerous assumptions - added a category to the recommendations, the rules were all best effort solutions that would normally be clarified with product, etc.
+
+The rules and recommendations are an interesting problem to think about. I have worked with filters and complex searches that were somewhat similar, but recommendation engines are a beast unto themselves. This is where the concept of a [Domain Specific Language](https://en.wikipedia.org/wiki/Domain-specific_language) comes into play, though I haven't studied the topic extensively.
+
+Interesting aside from the above article:
+
+> Erlang OTP
+The Erlang Open Telecom Platform was originally designed for use inside Ericsson as a domain-specific language. The language itself offers a platform of libraries to create finite state machines, generic servers and event managers that quickly allow an engineer to deploy applications, or support libraries, that have been shown in industry benchmarks to outperform other languages intended for a mixed set of domains, such as C and C++. The language is now officially open source and can be downloaded from their website.
+
+Went over time even without tests. Testing and TDD is a great idea, but I have not fully switched to using it, so I skipped writing tests as I was over time.
+
+There are many other remaining optimizations and issues to improve upon.
 
 - Extracting and abstracting the rules. I did include a document with some thoughts about the abstraction to make.
 - Adding tests; tests are critical, but working code and speed is often the priority.
