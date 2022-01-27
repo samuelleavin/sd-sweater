@@ -18,6 +18,9 @@ We’d like you to build a small CLI application in the language of your choice 
 - Read a configuration file containing the possible recommendations.
 - Output zero, one, or many recommendations based on the city’s forecast.
 
+## Core code
+https://github.com/samuelleavin/sd-sweater/blob/main/src/index.js
+
 ### API Usage
 
 [OpenWeather API docs](https://openweathermap.org/current)
