@@ -2,9 +2,9 @@
 
 ## Directions
 
-SD Weather Evaluation And Thermal Excellence Recommendations
+Supersonic Weather Evaluation And Thermal Excellence Recommendations
 
-Everyday SD sends thousands of notifications to couriers about their assigned deliveries.
+Everyday Supersonic sends thousands of notifications to couriers about their assigned deliveries.
 We’d like to start including recommendations of what they should bring with them based on their current weather forecast.
 Eg. “bring a sweater” if it’s going to be chilly, or “bring a raincoat” if it’s going to rain.
 
@@ -79,7 +79,7 @@ Currently, we recommend all items that satisfy the following conditions:
 
 ## Thoughts
 
-Fun challenge. I enjoyed using yargs for the first time, despite having seen it in the wild.
+Fun challenge. I enjoyed using yargs for the first time.
 
 I made numerous assumptions - added a category to the recommendations, the rules were all best effort solutions that would normally be clarified with product, etc.
 
