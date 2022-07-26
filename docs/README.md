@@ -79,7 +79,7 @@ Currently, we recommend all items that satisfy the following conditions:
 
 ## Thoughts
 
-Fun little challenge. I enjoyed using yargs for the first time, despite having seen it in the wild.
+Fun challenge. I enjoyed using yargs for the first time, despite having seen it in the wild.
 
 I made numerous assumptions - added a category to the recommendations, the rules were all best effort solutions that would normally be clarified with product, etc.
 
