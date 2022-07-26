@@ -80,7 +80,7 @@ async function main() {
     const recommendations = JSON.parse(recommendationData);
     recommendationIndex = buildIndex(recommendations);
   } catch (error) {
-    console.log(`Error: ${error.message}`);
+    console.error(`Error: ${error.message}`);
     return;
   }
 
@@ -90,7 +90,7 @@ async function main() {
   try {
     apiKey = (await fs.promises.readFile('../secrets/api-key.txt', 'utf8')).trim();
   } catch (error) {
-    console.log(`Error: ${error.message}`)
+    console.error(`Error: ${error.message}`)
     return;
   }
 
@@ -115,7 +115,7 @@ async function main() {
     console.log(`calling open weather api at: ${url}`);
     parsedBody = await got(url).json();
   } catch (error) {
-    console.log(`Error: ${error.message}`);
+    console.error(`Error: ${error.message}`);
     return;
   }
 
@@ -123,7 +123,7 @@ async function main() {
     weatherRecord = parsedBody.list[0];
     if (!weatherRecord) throw new Error('failed to get weather record from response');
   } catch (error) {
-    console.log(`Error: ${error.message}`);
+    console.error(`Error: ${error.message}`);
     return;
   }
 
@@ -213,7 +213,18 @@ function addGearByTemperature({ gearSet, temperature, recommendations }) {
   }
 }
 
-/** sort recommendations into category groups, as well as waterproof/absorbent groups */
+/** 
+ * sort recommendations into category groups, as well as waterproof/absorbent groups 
+ * 
+ * Map<{
+ *   jacket: Map<{
+ *     absorbent: Set[],
+ *     waterproof: Set[]
+ *   }>
+ *   ...
+ * }>
+ * 
+ * */
 function buildIndex(recommendations) {
   return recommendations.reduce((accumulator, recommendation) => {
     const { category, waterproof } = recommendation;
