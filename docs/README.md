@@ -63,7 +63,7 @@ sd-sweater$ cd src
 Run for your city and state, e.g.:
 
 ```shell
-sd-sweater/src$ ./index.js -city "New York" -state NY
+sd-sweater/src$ node ./index.js -city "New York" -state NY
 ```
 
 ## Rules
