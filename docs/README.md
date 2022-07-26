@@ -83,7 +83,7 @@ Fun challenge. I enjoyed using yargs for the first time, despite having seen it 
 
 I made numerous assumptions - added a category to the recommendations, the rules were all best effort solutions that would normally be clarified with product, etc.
 
-The rules and recommendations are an interesting problem to think about. I have worked with filters and complex searches that were somewhat similar, but recommendation engines are a beast unto themselves. This is also where the concept of a [Domain Specific Language](https://en.wikipedia.org/wiki/Domain-specific_language) comes into play, though I haven't studied the topic extensively.
+The rules and recommendations are an interesting problem to think about. I have worked with filters and complex searches that were somewhat similar, but this project is somewhat of a recommendation engine, which are a beast unto themselves. This is also where the concept of a [Domain Specific Language](https://en.wikipedia.org/wiki/Domain-specific_language) comes into play, though I haven't studied the topic extensively.
 
 Interesting aside from the above article:
 
